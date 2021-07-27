@@ -9,10 +9,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TargetTempo">
+        <activity android:name=".TimeWasted"></activity>
+        <activity android:name=".ScheduleInput" />
         <activity
             android:name=".Signup"
             android:label="@string/title_activity_signup"
-            android:theme="@style/Theme.TargetTempo.NoActionBar"></activity>
+            android:theme="@style/Theme.TargetTempo.NoActionBar" />
         <activity android:name=".Login" />
         <activity android:name=".MainActivity">
             <intent-filter>

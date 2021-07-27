@@ -15,4 +15,15 @@
     <string name="Password">Password</string>
     <string name="SignUpforTargetTempo">Sign up for Target Tiempo</string>
     <string name="Login">Login</string>
+    <string name="title_activity_schedule_input">ScheduleInput</string>
+    <string name="ActivityName">Activity Name</string>
+    <string name="Activity">Input Activity</string>
+    <string name="ActivityEnd">Activity End</string>
+    <string name="ActivityStart">Start Time</string>
+    <string name="Complete">Complete Schedule</string>
+    <string name="AddActivity">Add Activity</string>
+    <string name="title_activity_time_wasted">TimeWasted</string>
+    <string name="ReturnToInputSchedule">"Return "</string>
+    <string name="returnto">Return</string>
+    <string name="timeElapsed">Total Time Wasted</string>
 </resources>
