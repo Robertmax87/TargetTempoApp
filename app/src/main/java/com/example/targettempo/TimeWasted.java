@@ -20,33 +20,29 @@ public class TimeWasted extends AppCompatActivity {
     TextView timeWasted;
     Timer timer;
 
-    protected void updateChronos(int hourDiff, int minuteDiff)
+    protected void updateChronos(int timeDiffMs)
     {
         String timeLeftMessage = "Time Left";
         String lateMessage = "You are late by";
-        if(minuteDiff < 0)
+        String onTimeMEssage = "It's time for your activity";
+
+        if(timeDiffMs == 0)
         {
-            // late
-            //timeWasted.setText(lateMessage);
-            int factor = -1;
-            if(hourDiff < 0)
-            {
-                factor = 1;
-            }
-            hourDiff += factor;
-            minuteDiff = 60+minuteDiff;
+            timeWasted.setText(onTimeMEssage);
         }
-        if(hourDiff < 0)
+        else if(timeDiffMs > 0)
         {
-            //late
-            timeWasted.setText(lateMessage);
-            hourDiff *= -1;
+            timeWasted.setText(timeLeftMessage);
         }
         else
         {
-            //we have time
-            timeWasted.setText(timeLeftMessage);
+            timeDiffMs *= -1;
+            timeWasted.setText(lateMessage);
         }
+
+        int hourDiff = UserActivity.getDayHours(timeDiffMs);
+        int minuteDiff = UserActivity.getDayRemainderMins(timeDiffMs);
+
         Chronos.setText(hourDiff+":"+minuteDiff);
     }
 
@@ -56,7 +52,8 @@ public class TimeWasted extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_time_wasted);
         //TODO: retrieve activity from the intent
-        UserActivity currentActivity = new UserActivity("Test", 10, 00, 13, 00);
+        //UserActivity currentActivity = new UserActivity("Test", 12, 00, 18,48 );
+        UserActivity currentActivity = (UserActivity) getIntent().getSerializableExtra("activity");
 
         this.Chronos = findViewById(R.id.Chronos);
         this.timeWasted = findViewById(R.id.timeWasted);
@@ -67,12 +64,21 @@ public class TimeWasted extends AppCompatActivity {
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
+                /**if the start hour has passed then do the end time minus the current time and
+                 * display that to show how many minutes you have left...
+                 */
 
-                Date currentDateTime = Calendar.getInstance().getTime();
-                int hourDiff = currentActivity.startHour - currentDateTime.getHours();
-                int minuteDiff = currentActivity.startMinute - currentDateTime.getMinutes();
-
-                updateChronos(hourDiff, minuteDiff);
+                Calendar current = Calendar.getInstance();
+                //int hourBlock = currentActivity.endHour - currentActivity.startHour;
+                //int minBlock = currentActivity.endHour - currentActivity.startMinute;
+                int currentTimeMs = UserActivity.toDaySeconds(current.get(Calendar.HOUR_OF_DAY), current.get(Calendar.MINUTE));
+                int timeDiffMs = currentActivity.startTime - currentTimeMs;
+                /**
+                int minuteDiff =  currentDateTime.getMinutes()- currentActivity.startMinute;
+                int endHour = currentActivity.endHour - currentDateTime.getHours();
+                int endMinute = currentActivity.endMinute - currentDateTime.getMinutes();
+                 **/
+                updateChronos(timeDiffMs);
 
             }
         }, 0, 60*1000);
@@ -80,7 +86,8 @@ public class TimeWasted extends AppCompatActivity {
         Return.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(TimeWasted.this, ScheduleInput.class));
+                //startActivity(new Intent(TimeWasted.this, ScheduleInput.class));
+                finish();
             }
         });
 

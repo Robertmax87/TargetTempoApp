@@ -1,15 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.targettempo">
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
+        android:name=".AppNot"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TargetTempo">
-        <activity android:name=".TimeWasted"></activity>
+        <activity
+            android:name=".ListViewActivity">
+<!--            android:label="@string/title_activity_activities"-->
+<!--            android:theme="@style/Theme.TargetTempo.NoActionBar">-->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ActiveDashBoard"
+            android:label="@string/title_activity_active_dash_board"
+            android:theme="@style/Theme.TargetTempo.NoActionBar" />
+        <activity android:name=".TimeWasted" />
         <activity android:name=".ScheduleInput" />
         <activity
             android:name=".Signup"
@@ -17,12 +33,9 @@
             android:theme="@style/Theme.TargetTempo.NoActionBar" />
         <activity android:name=".Login" />
         <activity android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
+        <receiver android:name=".AlertReceiver"/>
     </application>
 
 </manifest>

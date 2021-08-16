@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context=".ListViewActivity">
+    <LinearLayout
+        android:id="@+id/activeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Actvitities"
+            android:textAlignment="center"
+            android:textSize="30dp"/>
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/activity_list_view">
+        </ListView>
+
+        <!--        <TextView-->
+<!--            android:id="@+id/ActivityName"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Name" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/AStart"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="HomeTown" />-->
+<!--        <TextView-->
+<!--            android:id="@+id/AEnd"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="HomeTown" />-->
+
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/addActivityButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="10dp"
+        android:text="@string/AddNewActivity"
+        app:layout_anchor="@+id/activeLayout"
+        app:layout_anchorGravity="end|top" />
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

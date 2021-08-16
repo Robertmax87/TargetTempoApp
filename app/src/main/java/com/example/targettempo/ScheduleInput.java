@@ -4,17 +4,22 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationBuilderWithBuilderAccessor;
 import androidx.core.app.NotificationCompat;
 
+import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -22,12 +27,14 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class ScheduleInput extends AppCompatActivity {
+    private NotificationHelper mNotificationHelper;
 
-    /**This is where we will put all of the activities
-     * And we are also instantiating all of the variables...
+    /**
+     * This is where we will put all of the activities
+     * And we are also instantiating all of the variables
+     * from our schedule activity class.
      */
     ArrayList<UserActivity> activities;
-
     TextInputEditText ActivityNameInput;
     Button continueInput, endInput;
     TimePicker StartTime, EndTime;
@@ -35,41 +42,28 @@ public class ScheduleInput extends AppCompatActivity {
 
 
     @Override
+
     protected void onCreate(Bundle savedInstanceState) {
+        /** the onCreate method with a savedInstanceState takes all of the input information
+         * and stores it together.
+         */
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule_input2);
-        timer = new Timer();
-        activities = new ArrayList<>();
         ActivityNameInput = findViewById(R.id.ActivityNameInput);
-        continueInput = findViewById(R.id.continueInput);
         StartTime = findViewById(R.id.StartTime);
         EndTime = findViewById(R.id.FinishTime);
         Button endInput = findViewById(R.id.endInput);
+        mNotificationHelper = new NotificationHelper(this);
         endInput.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ScheduleInput.this,TimeWasted.class));
-
-            }
-        });
-        /**
-         * 12 pm
-         * 1: 05 pm
-         * 1h 05m -> seconds -> milliseconds ->
-         * current approach: check every second to see if it's time for an activity
-         * new approach:
-         */
-        /** This is where we are continuing our inputs. We are adding more and more activities
-         * here so when we click the button we stay on the same page.
-         */
-        continueInput.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+                //startActivity(new Intent(ScheduleInput.this,TimeWasted.class));
 
                 String name = ActivityNameInput.getText().toString();
 
-                if(name == null || name == "")
-                {
+                sendOnChannel1("Title", "Message");
+
+                if (name == null || name == "") {
                     name = "Un-named activity";
                 }
 
@@ -81,38 +75,43 @@ public class ScheduleInput extends AppCompatActivity {
                 int endHour = EndTime.getCurrentHour();
                 int endMinute = EndTime.getCurrentMinute();
 
-                Date currentDateTime = Calendar.getInstance().getTime();
-
-                int hourDiff = startHour - currentDateTime.getHours();
-                int minuteDiff = startMinute - currentDateTime.getMinutes();
-                //ct = 1:15 am, ast = 2:20 am
-                if(hourDiff < 0)
-                {
-                    hourDiff = 24 + hourDiff;
-                }
-                if(minuteDiff < 0) {
-                    minuteDiff = 60 + minuteDiff;
-                    hourDiff--;
-                }
-                String finalName = name;
-                int delay = (hourDiff*60*60*1000)+(minuteDiff*60*1000);
-                delay -= (currentDateTime.getSeconds()*1000);
-                System.out.println("Delay: "+delay);
-                timer.schedule(new TimerTask() {
-                    @Override
-                    public void run() {
-                        NotificationCompat.Builder notify = new NotificationCompat.Builder(ScheduleInput.this);
-                        notify.setContentText("Random title").setContentText("Random text");
-                        NotificationManager nmanager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                        nmanager.notify(1, notify.build());
-                        //Toast.makeText(ScheduleInput.this, finalName +" Time", Toast.LENGTH_SHORT).show();
-                        //System.out.println("Activity hit");
-                    }
-                }, delay);
-                activities.add(new UserActivity(name, startHour, startMinute, endHour, endMinute));
-                Toast.makeText(ScheduleInput.this, "Activity '"+name+"' added", Toast.LENGTH_SHORT).show();
+                UserActivity newActivity = new UserActivity(name, startHour, startMinute, endHour, endMinute);
+                Intent response = new Intent();
+                response.putExtra("activity", newActivity);
+                setResult(Activity.RESULT_OK, response);
+                finish();
             }
+
         });
 
     }
+
+    public void onTimeSet(TimePicker startTime, int hourOfDay, int minute) {
+        int startHour = StartTime.getCurrentHour();
+        int startMinute = StartTime.getCurrentMinute();
+
+        //waste time = current time - start time
+
+        int endHour = EndTime.getCurrentHour();
+        int endMinute = EndTime.getCurrentMinute();
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.HOUR_OF_DAY, startHour);
+        c.set(Calendar.MINUTE, startMinute);
+        c.set(Calendar.SECOND, 0);
+
+    }
+
+    private void startAlarm(Calendar c) {
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this, AlertReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent, 0);
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pendingIntent);
+
+    }
+
+    public void sendOnChannel1(String title, String message) {
+    NotificationCompat.Builder nb = mNotificationHelper.getHelperNotification(title, message);
+    mNotificationHelper.getManager().notify(1, nb.build());
+    }
+
 }

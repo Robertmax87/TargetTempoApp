@@ -1,15 +1,20 @@
 package com.example.targettempo;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,15 +25,21 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.example.targettempo.databinding.ActivitySignupBinding;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+
+import org.jetbrains.annotations.NotNull;
 
 public class Signup extends AppCompatActivity {
     /**Here I am instantiating my variables. I could easily instantiate them as something else.
      * however I have decided to instantiate them as longer more complex variables that are very
      * obvious.
      */
-    TextInputEditText textInputEditTextFullname, textInputEditTextEmail, textInputEditTextUsername, textInputEditTextPassword;
+    TextInputEditText Fullname, Email, Username, Password;
     TextView textView4;
-    Button chapo;
+    Button Register;
+    FirebaseAuth fAuth;
+    ProgressBar Loading;
     private AppBarConfiguration appBarConfiguration;
     private ActivitySignupBinding binding;
 
@@ -39,13 +50,19 @@ public class Signup extends AppCompatActivity {
         /** Here we know what our variables are. Using "findViewByID" we can locate what our
          * variables are supposed to represent.
          */
-        textInputEditTextFullname = findViewById(R.id.Fullname);
-        textInputEditTextEmail = findViewById(R.id.Email);
-        textInputEditTextUsername = findViewById(R.id.Username);
-        textInputEditTextPassword = findViewById(R.id.Password);
+        Loading = findViewById(R.id.loadingBar);
+        Fullname = findViewById(R.id.Fullname);
+        Email = findViewById(R.id.Email);
+        Username = findViewById(R.id.Username);
+        Password = findViewById(R.id.Password);
         // textView4 = findViewById(R.id.textView4);
-        chapo = findViewById(R.id.chapo);
-        chapo.setOnClickListener(new View.OnClickListener() {
+        Register = findViewById(R.id.chapo);
+        fAuth =  FirebaseAuth.getInstance();
+        if(fAuth.getCurrentUser() != null){
+            startActivity(new Intent(getApplicationContext(),ScheduleInput.class));
+            finish();
+        }
+        Register.setOnClickListener(new View.OnClickListener() {
             /**
              * This is where the button's functionality goes. Here we are able to make sure that
              * @param v
@@ -53,10 +70,29 @@ public class Signup extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String fullname, email, username, password;
-                fullname = String.valueOf(textInputEditTextFullname.getText());
-                email = String.valueOf(textInputEditTextEmail.getText());
-                username = String.valueOf(textInputEditTextUsername.getText());
-                password = String.valueOf(textInputEditTextPassword.getText());
+                fullname = String.valueOf(Fullname.getText());
+                email = String.valueOf(Email.getText());
+                username = String.valueOf(Username.getText());
+                password = String.valueOf(Password.getText());
+                if(username.isEmpty() || username.length()<6){
+                    Username.setError("Username must be filled and Longer than 6 characters");
+                }
+                if(password.isEmpty() || password.length() < 6){
+                    Password.setError("Password must be filled out with a length longer than 6 characters");
+                }
+                Loading.setVisibility(View.VISIBLE);
+                fAuth.createUserWithEmailAndPassword(username,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull @NotNull Task<AuthResult> task) {
+                        if(task.isSuccessful()){
+                            Toast.makeText(Signup.this,"User Added",Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(getApplicationContext(),ScheduleInput.class));
+                        }
+                        else{
+                            Toast.makeText(Signup.this,"Error" + task.getException().getMessage(),Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
                 if(!fullname.equals("") && !email.equals("") && !username.equals("") && !password.equals("")) {
 
 

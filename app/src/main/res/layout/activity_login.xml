@@ -15,7 +15,7 @@
         android:layout_marginTop="122dp"
         android:layout_marginBottom="16dp"
         android:drawableEnd="@drawable/ic_username"
-        android:hint="@string/username"
+        android:hint="@string/user_email"
         app:layout_constraintBottom_toTopOf="@+id/LoginPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -27,7 +27,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:drawableEnd="@drawable/ic_password"
-        android:hint="Password"
+        android:hint="@string/LoginPassword"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -38,7 +38,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="128dp"
-        android:text="Login to account"
+        android:text="@string/login_to_account"
         android:textSize="30dp"
         android:textColor="@color/purple_700"
         app:layout_constraintEnd_toEndOf="parent"
@@ -50,11 +50,36 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="400dp"
-        android:text="Login"
+        android:text="@string/Login"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/pBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="47dp"
+        android:layout_marginBottom="188dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/chapo" />
+
+    <TextView
+        android:id="@+id/CreateNew"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="17dp"
+        android:layout_marginBottom="11dp"
+        android:text="@string/want_to_create_a_new_account"
+        app:layout_constraintBottom_toTopOf="@+id/pBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/chapo" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

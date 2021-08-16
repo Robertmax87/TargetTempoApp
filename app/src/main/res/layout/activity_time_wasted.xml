@@ -4,7 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".TimeWasted">
+    tools:context=".TimeWasted"
+    android:background="#6629D1"
+    android:backgroundTint="#19A7E8">
+
 
     <Button
         android:id="@+id/Return"
@@ -12,7 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="164dp"
         android:layout_marginEnd="146dp"
-        android:layout_marginBottom="88dp"
+        android:layout_marginBottom="328dp"
         android:text="@string/returnto"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -21,12 +24,11 @@
 
     <TextView
         android:id="@+id/Chronos"
-        android:text="00:00"
-        android:layout_width="161dp"
-        android:layout_height="65dp"
+        android:layout_width="133dp"
+        android:layout_height="64dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="66dp"
         android:layout_marginBottom="100dp"
+        android:text="00:00"
         android:textColor="#f00"
         android:textSize="48sp"
         android:textStyle="bold|italic"
@@ -36,20 +38,21 @@
         app:layout_constraintTop_toBottomOf="@+id/timeWasted" />
 
     <TextView
+        android:background="@drawable/back"
         android:id="@+id/timeWasted"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="328dp"
+        android:layout_height="84dp"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="70dp"
-        android:layout_marginBottom="-5dp"
-        android:text="@string/timeElapsed"
+        android:text="@string/TimeRemain"
         android:textColor="@color/purple_700"
         android:textSize="37sp"
         android:textStyle="italic"
         app:layout_constraintBottom_toTopOf="@+id/Chronos"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintHorizontal_bias="0.54"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.45" />
+        app:layout_constraintVertical_bias="0.52" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
