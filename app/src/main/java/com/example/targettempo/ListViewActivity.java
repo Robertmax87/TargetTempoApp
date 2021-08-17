@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 
 class MyAdapter extends ArrayAdapter<UserActivity>
@@ -130,20 +131,10 @@ public class ListViewActivity extends AppCompatActivity {
             UserActivity addedActivity = (UserActivity) data.getSerializableExtra("activity");
             userActivities.add(addedActivity);
             adapter.notifyDataSetChanged();
+            Intent serviceIntent = new Intent(ListViewActivity.this, MyService.class);
+            serviceIntent.putExtra("Activities", userActivities);
+            startService(serviceIntent);
         }
-    }
-
-
-
-//use in time wasted class
-    private int getTotalTimeWasted()
-    {
-        int totalWastedMinutes = 0;
-        for(int i = 0;i<userActivities.size();i++)
-        {
-            totalWastedMinutes += userActivities.get(i).wastedMinutes;
-        }
-        return totalWastedMinutes;
     }
 
 

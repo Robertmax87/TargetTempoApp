@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "842106572668",
+    "project_id": "targettempo",
+    "storage_bucket": "targettempo.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:842106572668:android:32861a10023c5b7c4e5ef9",
+        "android_client_info": {
+          "package_name": "com.example.targettempo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "842106572668-8s8dgb2qmtvmajjee5hf88f45h3h3i4d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCwIJrm1HA_2syr4jOBPyVaW0RleJmu224"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "842106572668-8s8dgb2qmtvmajjee5hf88f45h3h3i4d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

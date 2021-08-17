@@ -53,15 +53,15 @@ public class ScheduleInput extends AppCompatActivity {
         StartTime = findViewById(R.id.StartTime);
         EndTime = findViewById(R.id.FinishTime);
         Button endInput = findViewById(R.id.endInput);
-        mNotificationHelper = new NotificationHelper(this);
+        // mNotificationHelper = new NotificationHelper(this);
         endInput.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //startActivity(new Intent(ScheduleInput.this,TimeWasted.class));
 
                 String name = ActivityNameInput.getText().toString();
-
-                sendOnChannel1("Title", "Message");
+                //change later
+                //sendOnChannel1("Title", "Message");
 
                 if (name == null || name == "") {
                     name = "Un-named activity";
